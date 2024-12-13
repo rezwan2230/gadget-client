@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UseAuth from "../hooks/UseAuth";
 import { useForm } from "react-hook-form";
 
@@ -10,9 +10,13 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate()
 
-  const onSubmit = (data) => console.log(data);
-
+  const onSubmit = (data) => {
+    login(data.email, data.password);
+    navigate("/");
+  };
+ 
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">

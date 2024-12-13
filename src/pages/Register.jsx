@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UseAuth from "../hooks/UseAuth";
 import { useForm } from "react-hook-form";
 
@@ -14,9 +14,11 @@ export const Register = () => {
     watch,
     formState: { errors },
   } = useForm()
+  const navigate = useNavigate()
 
   const onSubmit = (data) => {
     createUser(data.email, data.password);
+    navigate('/');
   }
 
 
