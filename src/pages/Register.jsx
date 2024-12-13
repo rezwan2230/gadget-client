@@ -2,6 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import UseAuth from "../hooks/UseAuth";
 import { useForm } from "react-hook-form";
+import GoogleLogin from "../components/login-registration/GoogleLogin";
 
 
 export const Register = () => {
@@ -84,8 +85,12 @@ export const Register = () => {
             <div className="form-control mt-6">
               <button type="submit" className="btn btn-outline bg-black text-white">Register</button>
             </div>
-          <p className="text-center mt-3 font-light">Already have an account? <Link to='/login' className="text-black underline">login</Link></p>
           </form>
+          
+            <div className="text-center">
+              <GoogleLogin/>
+            </div>
+          <p className="text-center mt-2 mb-5 font-light">Already have an account? <Link to='/login' className="text-black underline">login</Link></p>
         </div>
       </div>
     </div>
