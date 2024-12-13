@@ -1,6 +1,6 @@
 const Accordion = () => {
   return (
-    <div>
+    <div className="flex flex-col gap-3 w-4/5 lg:w-2/3 mx-auto">
       <div className="collapse collapse-arrow bg-base-200">
         <input type="radio" name="my-accordion-2" defaultChecked />
         <div className="collapse-title text-xl font-medium">

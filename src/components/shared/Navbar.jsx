@@ -1,3 +1,5 @@
+import { Link, NavLink } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <div className="navbar bg-base-200">
@@ -24,51 +26,50 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a>Item 1</a>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
+              <NavLink to="/products">Products</NavLink>
             </li>
             <li>
-              <a>Item 3</a>
+              <NavLink to="/about">About</NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact-us">Contact Us</NavLink>
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <h2 className="btn btn-ghost text-xl">Gadget Shop</h2>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Item 1</a>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
+            <NavLink to="/products">Products</NavLink>
           </li>
           <li>
-            <a>Item 3</a>
+            <NavLink to="/about">About</NavLink>
+          </li>
+          <li>
+            <NavLink to="/contact-us">Contact Us</NavLink>
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <div className="flex item-center gap-2">
+          <Link to="/login">
+            <button className="btn btn-outline btn-sm bg-gray-400 text-black border border-black">
+              Login
+            </button>
+          </Link>
+          <Link to='/register'>
+            <button className="btn btn-outline btn-sm  bg-black text-white border border-black">
+             Register
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
