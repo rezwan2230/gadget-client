@@ -15,8 +15,9 @@ export const Register = () => {
     formState: { errors },
   } = useForm()
 
-  const onSubmit = (data) => console.log(data)
-
+  const onSubmit = (data) => {
+    createUser(data.email, data.password);
+  }
 
 
 
@@ -43,8 +44,8 @@ export const Register = () => {
                 className="input input-bordered"
                 {...register("email", { required: true })}
                 />
-                {errors.email && <span className="to-red-500 font-light">This field is required</span>}
-            </div>
+                {errors.email && <span className="text-red-500 font-light">This field is required</span>}
+            </div> 
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
@@ -56,9 +57,9 @@ export const Register = () => {
                 {...register("password", { required: true, minLength:6 })}
                 />
                 {errors.password?.type=="required" && (
-                <span className="to-red-500 font-light">Password is required</span>)}
+                <span className="text-red-500 font-light">Password is required</span>)}
                 {errors.password?.type=="minLength" && (
-                <span className="to-red-500 font-light">Password must have at least 6 characters</span>)}
+                <span className="text-red-500 font-light">Password must have at least 6 characters</span>)}
             </div>
 
             <div className="form-control">
@@ -75,7 +76,7 @@ export const Register = () => {
                   }
                 } },)}
               />
-              {errors.confirmPassword && <span className="to-red-500 font-light">Both password must match</span>}
+              {errors.confirmPassword && <span className="text-red-500 font-light">Both password must match</span>}
              
             </div>
             <div className="form-control mt-6">
