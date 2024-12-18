@@ -5,7 +5,7 @@ import UserDropdown from "./UserDropdown";
 const Navbar = () => {
   const { user } = UseAuth();
   return (
-    <div className="navbar bg-base-200">
+    <div className="navbar container mx-auto">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -42,26 +42,26 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <h2 className="btn btn-ghost text-xl">Gadget Shop</h2>
+        <h2 className="font-semibold text-2xl">Gadget Shop</h2>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink className='font-semibold' to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/products">Products</NavLink>
+            <NavLink className='font-semibold' to="/products">Products</NavLink>
           </li>
           <li>
-            <NavLink to="/about">About</NavLink>
+            <NavLink className='font-semibold' to="/about">About</NavLink>
           </li>
           <li>
-            <NavLink to="/contact-us">Contact Us</NavLink>
+            <NavLink className='font-semibold' to="/contact-us">Contact Us</NavLink>
           </li>
         </ul>
       </div>
 
-      {user ? (
+      {user? (
         <UserDropdown />
       ) : (
         <div className="navbar-end">

@@ -15,12 +15,13 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -42,14 +43,28 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
       setUser(currentUser);
-      setLoading(false);
+      if (currentUser) {
+        axios
+          .post(`http://localhost:4000/authentication`, {
+            email: currentUser.email,
+          })
+          .then((data) => {
+            if (data.data) {
+              localStorage.setItem("access-token", data?.data?.token);
+              setLoading(false);
+            }
+          });
+      } else {
+        localStorage.removeItem("access-token");
+        setLoading(false);
+      }
     });
     return () => {
-      unSubscribe();
+      return unSubscribe();
     };
   }, []);
+
 
   const authInfo = {
     user,
@@ -60,9 +75,9 @@ const AuthProvider = ({children}) => {
     googleLogin,
   };
 
-  return <AuthContext.Provider value={authInfo}>
-    {children}
-  </AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
