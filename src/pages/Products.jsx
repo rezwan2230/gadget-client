@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import Loading from "./Loading";
 import ProductCard from "../components/shared/ProductCard";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -13,36 +15,49 @@ const Products = () => {
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
-  const [sort, setSort] = useState('asc');
+  const [sort, setSort] = useState("asc");
   const [uniqueBrand, setUniqueBrand] = useState([]);
   const [uniqueCategory, setUniqueCategory] = useState([]);
-  console.log(products);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     setLoading(true);
     const fetch = async () => {
-      axios.get(`http://localhost:4000/all-products?title=${search}&sort=${sort}&brand=${brand}&category=${category}`).then((res) => {
-        setProducts(res.data.products);
-        setUniqueBrand(res.data.brands);
-        setUniqueCategory(res.data.categories);
-        setLoading(false);
-      });
+      axios
+        .get(
+          `http://localhost:4000/all-products?title=${search}&page=${page}&limit=${9}&sort=${sort}&brand=${brand}&category=${category}`
+        )
+        .then((res) => {
+          setProducts(res.data.products);
+          setUniqueBrand(res.data.brands);
+          setUniqueCategory(res.data.categories);
+          setTotalPages(Math.ceil(res.data.totalProducts / 9));
+          setLoading(false);
+        });
     };
     fetch();
-  }, [search, sort, brand, category]); 
+  }, [search, sort, brand, category, page]);
 
-  const handleSearch = (e)=>{
-    e.preventDefault()
-    setSearch(e.target.search.value)
-    e.target.search.value = ""
-  }
-  const handleReset =()=>{
-    setSearch('');
-    setBrand('');
-    setCategory('');
-    setSort('asc');
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.search.value);
+    e.target.search.value = "";
+  };
+  const handleReset = () => {
+    setSearch("");
+    setBrand("");
+    setCategory("");
+    setSort("asc");
     window.location.reload();
-  }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="container mx-auto h-full">
@@ -53,35 +68,55 @@ const Products = () => {
         <SearchBar handleSearch={handleSearch} />
         <SortByPrice setSort={setSort} />
       </div>
-      
+
       {/* content */}
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-2  min-h-screen ">
-          <FillterBar uniqueBrand={uniqueBrand} uniqueCategory={uniqueCategory} setBrand={setBrand} setCategory={setCategory} handleReset={handleReset}/>
-        </div>
-        <div className="col-span-10  min-h-screen">
-
-          {loading ? <Loading /> : 
-          <>
-          {
-            products.length==0 ? 
-            <div>
-              <p className="flex justify-center items-center min-h-[30ch] font-semibold text-4xl ">No Products Found</p>
-            </div>  :  
-            <div className="grid grid-cols-3 gap-6">
-              {
-                products.map(product=>(
-                  <ProductCard key={product._id} product={product}/>
-                ))
-
-              }
-
-            </div>
-          }
-          </>
-          }
+      <div>
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-2  min-h-screen ">
+            <FillterBar
+              uniqueBrand={uniqueBrand}
+              uniqueCategory={uniqueCategory}
+              setBrand={setBrand}
+              setCategory={setCategory}
+              handleReset={handleReset}
+            />
+          </div>
+          <div className="col-span-10  min-h-screen">
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                {products?.length == 0 ? (
+                  <div>
+                    <p className="flex justify-center items-center min-h-[30ch] font-semibold text-4xl ">
+                      No Products Found
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 gap-6">
+                    {products.map((product) => (
+                      <ProductCard key={product._id} product={product} />
+                    ))}
+                  </div>
+                )}
+                <div className="flex justify-center gap-5 p-8">
+                  <button onClick={()=>handlePageChange(page-1)}>
+                    <FaRegArrowAltCircleLeft size={40} />
+                  </button>
+                  <p>
+                    page {page} of {totalPages}
+                  </p>
+                  <button onClick={()=>handlePageChange(page+1)}>
+                    <FaRegArrowAltCircleRight size={40} />
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* pagination */}
     </div>
   );
 };
