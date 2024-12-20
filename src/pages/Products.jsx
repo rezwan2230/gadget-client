@@ -100,14 +100,21 @@ const Products = () => {
                   </div>
                 )}
                 <div className="flex justify-center gap-5 p-8">
-                  <button onClick={()=>handlePageChange(page-1)}>
-                    <FaRegArrowAltCircleLeft size={40} />
+                  <button disabled={page==1}
+                    className="btn p-4 rounded-full"
+                    onClick={() => handlePageChange(page - 1)}
+                  >
+                    <FaRegArrowAltCircleLeft />
                   </button>
                   <p>
                     page {page} of {totalPages}
                   </p>
-                  <button onClick={()=>handlePageChange(page+1)}>
-                    <FaRegArrowAltCircleRight size={40} />
+                  <button
+                    disabled={page == totalPages}
+                    className="btn p-4 rounded-full"
+                    onClick={() => handlePageChange(page + 1)}
+                  >
+                    <FaRegArrowAltCircleRight />
                   </button>
                 </div>
               </>

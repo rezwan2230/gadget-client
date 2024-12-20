@@ -6,6 +6,7 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import UseUserData from "../../hooks/useUserData";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoMdHeartEmpty } from "react-icons/io";
 import UseAuth from "../../hooks/UseAuth";
 
 const sellerRoutes = [
@@ -20,6 +21,15 @@ const sellerRoutes = [
     route : "/dashboard/add-products",
     title : "Add Products",
     icon :<IoIosAddCircleOutline />
+  },
+]
+
+const buyerRoutes = [
+  {
+    id:1,
+    route : "/dashboard/wishlist",
+    title : "My Wishlist",
+    icon : <IoMdHeartEmpty />
   },
 ]
 
@@ -40,6 +50,15 @@ const Sidebar = () => {
 
       {
         userData?.role=="seller" && sellerRoutes.map((route)=><li key={route.id} className="p-2 border border-black rounded-md hover:bg-slate-300">
+        <NavLink to={route.route} className="flex gap-3 items-center">
+        <span className="size-5">{route.icon}</span>
+        <p className="text-xl">{route.title}</p>
+        </NavLink>
+      </li>)
+      }
+
+      {
+        userData?.role=="buyer" && buyerRoutes.map((route)=><li key={route.id} className="p-2 border border-black rounded-md hover:bg-slate-300">
         <NavLink to={route.route} className="flex gap-3 items-center">
         <span className="size-5">{route.icon}</span>
         <p className="text-xl">{route.title}</p>
